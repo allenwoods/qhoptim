@@ -106,8 +106,8 @@ class QHMOptimizer(optimizers.Optimizer):
         momentum_op = training_ops.apply_momentum(
             var,
             momentum_buffer,
-            nu * (1.0 - momentum) * learning_rate,
-            grad,
+            nu * learning_rate,
+            (1.0 - momentum) * grad,
             momentum,
             use_locking=self._use_locking,
             use_nesterov=False,
@@ -129,8 +129,8 @@ class QHMOptimizer(optimizers.Optimizer):
         momentum_op = training_ops.resource_apply_momentum(
             var.handle,
             momentum_buffer.handle,
-            nu * (1.0 - momentum) * learning_rate,
-            grad,
+            nu * learning_rate,
+            (1.0 - momentum) * grad,
             momentum,
             use_locking=self._use_locking,
             use_nesterov=False,

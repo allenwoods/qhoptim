@@ -7,8 +7,6 @@ import random
 import tensorflow as tf
 
 
-
-
 def build_net(k, use_resource, sparse, seed):
     r = random.Random(seed)
     t = tf.random.normal((k, 1), dtype=tf.float64, seed=0)
