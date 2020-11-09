@@ -10,14 +10,15 @@ from tensorflow.python.ops import control_flow_ops
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import state_ops
 from tensorflow.python.ops import resource_variable_ops
-from tensorflow.python.training import optimizer
+# from tensorflow.python.training import optimizer
+from tensorflow.keras import optimizers
 from tensorflow.python.training import slot_creator
 
 from ..common import param_conv
 from .util import call_if_callable
 
 
-class QHAdamOptimizer(optimizer.Optimizer):
+class QHAdamOptimizer(optimizers.Optimizer):
     r"""Implements the QHAdam optimization algorithm `(Ma and Yarats, 2019)`_.
 
     Note that the NAdam optimizer is accessible via a specific parameterization
@@ -283,3 +284,13 @@ class QHAdamOptimizer(optimizer.Optimizer):
         .. _`(Dozat, 2016)`: https://openreview.net/pdf?id=OM0jvwB8jIp57ZJjtNEZ
         """
         return cls._params_to_dict(param_conv.from_nadam(learning_rate, beta1, beta2))
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "learning_rate": self._serialize_hyperparameter("learning_rate"),
+            "nu1": self._serialize_hyperparameter("nu1"),
+            "nu2": self._serialize_hyperparameter("nu2"),
+            "beta1": self._serialize_hyperparameter("beta1"),
+            "beta2": self._serialize_hyperparameter("beta2")})
+        return config

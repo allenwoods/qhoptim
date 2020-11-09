@@ -7,7 +7,7 @@ import tensorflow as tf
 
 from qhoptim.tf import QHMOptimizer
 
-from .util import assert_optimizers_equal
+from test_qhoptim.tf.util import assert_optimizers_equal
 
 
 def test_plain_sgd_equiv():

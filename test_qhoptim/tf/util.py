@@ -4,8 +4,9 @@
 # LICENSE file in the root directory of this source tree.
 
 import random
-
 import tensorflow as tf
+
+
 
 
 def build_net(k, use_resource, sparse, seed):

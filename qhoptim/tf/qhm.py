@@ -8,14 +8,15 @@ from tensorflow.python.framework import dtypes
 from tensorflow.python.ops import control_flow_ops
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import resource_variable_ops
-from tensorflow.python.training import optimizer
+from tensorflow.keras import optimizers
+# from tensorflow.python.training import optimizer
 from tensorflow.python.training import training_ops
 
 from ..common import param_conv
 from .util import call_if_callable
 
 
-class QHMOptimizer(optimizer.Optimizer):
+class QHMOptimizer(optimizers.Optimizer):
     r"""Implements the quasi-hyperbolic momentum (QHM) optimization algorithm
     `(Ma and Yarats, 2019)`_.
 
@@ -349,3 +350,16 @@ class QHMOptimizer(optimizer.Optimizer):
         .. _`Ma and Yarats (2019)`: https://arxiv.org/abs/1810.06801
         """
         return cls._params_to_dict(param_conv.from_two_state_optimizer(h, k, l, m, q, z))
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "learning_rate":
+                self._serialize_hyperparameter("learning_rate"),
+            "momentum":
+                self._serialize_hyperparameter("momentum"),
+            "nu":
+                self._serialize_hyperparameter("nu"),
+        })
+        return config
+
